@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+#lyrics-container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.line {
+  margin-bottom: 10px;
+}
+
+.chord {
+  font-weight: bold;
+  color: #b22222;
+  margin-right: 5px;
+}
