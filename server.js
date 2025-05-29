@@ -47,7 +47,7 @@ app.post("/login", (req, res) => {
         if (user.admin) {
           res.redirect("/Main Page -Admin.html");
         } else {
-          res.redirect("/Main Page-Player.html");
+          res.redirect("/Main Page -Player.html");
         }
       } else {
         res.send("❌ שם משתמש או סיסמה שגויים");
