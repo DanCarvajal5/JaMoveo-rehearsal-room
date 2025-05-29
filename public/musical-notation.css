@@ -9,9 +9,10 @@ body {
 
 .note {
   position: absolute;
-  font-size: 24px;
+  font-size: 34px;
   opacity: 0.8;
   animation: float linear infinite;
+  z-index: 1;
 }
 
 @keyframes float {
