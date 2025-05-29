@@ -12,8 +12,8 @@ app.use(express.static("public"));
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "", // סיסמה שלך אם יש
-  database: "jamoveo_db",
+  password: "1234", // או הסיסמה שלך אם שינית
+  database: "rehearsal-room", // ← זה חשוב שיהיה בדיוק כמו שקראת למסד!
 });
 
 db.connect((err) => {
