@@ -5,8 +5,6 @@ const title = document.getElementById("title");
   const span = document.createElement("span");
   span.textContent = char;
   span.className = "letter";
-  span.style.animationDelay = `${i * 0.2}s`;
+  span.style.animationDelay = `${i * 0.3}s`;
   title.appendChild(span);
-
-
 });

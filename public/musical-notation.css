@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  font-family: Arial, sans-serif;
+  background-color: #f4e9da;
+}
+
+.note {
+  position: absolute;
+  font-size: 24px;
+  opacity: 0.8;
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy));
+  }
+}

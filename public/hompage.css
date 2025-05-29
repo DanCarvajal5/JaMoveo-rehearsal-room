@@ -1,30 +1,63 @@
 body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  background: url("/JaMoveo-homepage.png"); /* ודא שהתמונה נמצאת בתיקיית public */
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* width: 100%; */
+  max-width: 1280px; /* רוחב מקסימלי של התוכן */
+  min-width: 320px; /* רוחב מינימלי (למנוע שבירה מוחלטת בניידים ישנים) */
+  margin: 0 auto; /* מרכז את האלמנט בעמוד */
+  box-sizing: border-box;
 }
-
+/* JaMoveo title animation */
 .title {
-  font-size: 4em;
+  font-size: 6em;
   font-weight: bold;
   color: black;
   font-family: Arial, sans-serif;
+  height: 50vh;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
 }
-
 .letter {
   opacity: 0;
-  animation: fadeIn 0.5s forwards;
+  animation: fadeIn 0.9s forwards;
 }
-
 @keyframes fadeIn {
   to {
     opacity: 1;
   }
+}
+/* JaMoveo pic */
+
+.Jamoveo-img-container {
+  display: flex;
+  justify-content: center;
+  /* background-color: magenta; */
+}
+.Jamoveo-img {
+  height: 50vh;
+  min-height: 853px;
+  border-radius: 100px;
+}
+
+/* homepage links  */
+.nav-homepage-links {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.homepage-link {
+  flex: 1;
+  color: #fff;
+  background-color: #333;
+  border: 1px solid;
+  padding: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.5s ease-out;
+}
+/* homepage links hover animation */
+.homepage-link:hover,
+.homepage-link:focus {
+  background-color: #fff;
+  color: #333;
 }
