@@ -29,7 +29,7 @@ app.post("/signup", (req, res) => {
     [username, password, admin === "on" ? 1 : 0],
     (err) => {
       if (err) throw err;
-      res.redirect("/Login Page.html");
+      res.redirect("/login.html");
     }
   );
 });
@@ -45,9 +45,9 @@ app.post("/login", (req, res) => {
       if (results.length > 0) {
         const user = results[0];
         if (user.admin) {
-          res.redirect("/Main Page -Admin.html");
+          res.redirect("/main-admin.html");
         } else {
-          res.redirect("/Main Page -Player.html");
+          res.redirect("/main-player.html");
         }
       } else {
         res.send("❌ שם משתמש או סיסמה שגויים");
