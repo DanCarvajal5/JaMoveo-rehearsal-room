@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: url("/JaMoveo-homepage.png"); /* ודא שהתמונה נמצאת בתיקיית public */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 4em;
+  font-weight: bold;
+  color: black;
+  font-family: Arial, sans-serif;
+  display: flex;
+}
+
+.letter {
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
