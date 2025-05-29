@@ -32,12 +32,14 @@ function renderLyrics(showChords) {
   const container = document.getElementById("lyrics-container");
   container.innerHTML = "";
 
+  // line in song
   data.forEach((line) => {
     const lineDiv = document.createElement("div");
     lineDiv.className = "line";
 
+    //world in song
     line.forEach((word) => {
-      const span = document.createElement("span");
+      const span = document.createElement("span"); //i chose to use span and not p becaus span is a inline element and p is block element
 
       if (showChords && word.chords) {
         span.innerHTML = `<span class="chord">[${word.chords}]</span>${word.lyrics} `;
