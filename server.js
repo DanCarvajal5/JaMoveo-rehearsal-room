@@ -23,10 +23,10 @@ db.connect((err) => {
 
 // דף הרשמה
 app.post("/signup", (req, res) => {
-  const { username, password, admin } = req.body;
+  const { username, password, admin, instrument } = req.body;
   db.query(
-    "INSERT INTO users (username, password, admin) VALUES (?, ?, ?)",
-    [username, password, admin === "on" ? 1 : 0],
+    "INSERT INTO users (username, password, admin, instrument) VALUES (?, ?, ?, ?)",
+    [username, password, admin === "on" ? 1 : 0, instrument],
     (err) => {
       if (err) throw err;
       res.redirect("/login.html");

@@ -30,18 +30,23 @@
     <form action="/signup" method="POST">
       <label>Username:</label><br />
       <input type="text" name="username" required /><br />
+
       <label>Password:</label><br />
       <input type="password" name="password" required /><br />
+
       <div id="instrument-select">
         <h3>Select your instrument</h3>
-        <select id="instrument">
+        <select name="instrument" required>
+          <option value="" disabled selected>Select an instrument</option>
           <option value="vocals">Vocals</option>
           <option value="guitar">Guitar</option>
           <option value="drums">Drums</option>
         </select>
       </div>
+
       <label>Admin?</label>
       <input type="checkbox" name="admin" /><br /><br />
+
       <input type="submit" value="Sign Up" />
     </form>
   </body>
