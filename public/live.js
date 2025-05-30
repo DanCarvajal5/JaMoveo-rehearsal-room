@@ -23,13 +23,14 @@ async function loadSongContent() {
     data = json.content;
 
     console.log("✅ תוכן השיר הוזן לתוך data:", data);
+    renderLyrics(true);
   } catch (err) {
     console.error("❌ שגיאה בשליפת השיר:", err);
   }
 }
 
 loadSongContent();
-// renderLyrics(true)
+
 //
 
 //showwChords=tru if player instument forom user sql table is guitar or drums
