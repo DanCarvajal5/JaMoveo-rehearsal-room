@@ -36,6 +36,7 @@ function renderLyrics(showChords) {
   data.forEach((line) => {
     const lineDiv = document.createElement("div");
     lineDiv.className = "line";
+    lineDiv.classList.add( "line");
 
     //world in song
     line.forEach((word) => {
