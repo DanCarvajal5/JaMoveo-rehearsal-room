@@ -36,7 +36,7 @@ function renderLyrics(showChords) {
   data.forEach((line) => {
     const lineDiv = document.createElement("div");
     lineDiv.className = "line";
-    lineDiv.classList.add( "line");
+    // lineDiv.classList.add( "line");
 
     //world in song
     line.forEach((word) => {
@@ -53,7 +53,28 @@ function renderLyrics(showChords) {
 
     container.appendChild(lineDiv);
   });
+  highlightLinesSequentially();
 }
+function highlightLinesSequentially() {
+  const lines = document.querySelectorAll(".line");
+  let current = 0;
 
+  function highlightNext() {
+    if (current > 0) {
+      lines[current - 1].classList.remove("highlight"); // הסר הדגשה מהשורה הקודמת
+    }
+
+    if (current < lines.length) {
+      lines[current].classList.add("highlight");
+
+      setTimeout(() => {
+        current++;
+        highlightNext();
+      }, 3000); // המתן 3 שניות לפני מעבר לשורה הבאה
+    }
+  }
+
+  highlightNext();
+}
 // טען את השיר הראשון כברירת מחדל
 loadSong(select.value);
