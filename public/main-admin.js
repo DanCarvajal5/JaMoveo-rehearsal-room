@@ -101,6 +101,7 @@ async function checkIfSongExists() {
     // שליחה ל-results-admin.html עם גם song וגם artist
     const artist = encodeURIComponent(data.artist);
     const song = encodeURIComponent(name);
+    // const songContent=encodeURIComponent(JSON.stringify(data.content));
     window.location.href = `/results-admin.html?song=${song}&artist=${artist}`;
   } else {
     foundedSongName.innerText = "Song not found..";
