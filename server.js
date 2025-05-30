@@ -6,7 +6,7 @@ const path = require("path");
 const app = express();
 const port = 3000;
 
-// socket 
+// socket
 // const io = require('socket.io')(server); // אחרי יצירת השרת
 
 // io.on('connection', (socket) => {
@@ -22,10 +22,7 @@ const port = 3000;
 //   });
 // });
 
-
-
-
-// 
+//
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -44,10 +41,10 @@ db.connect((err) => {
 
 // דף הרשמה
 app.post("/signup", (req, res) => {
-  const { username, password, admin, instrument } = req.body;
+  const { username, password, instrument } = req.body;
   db.query(
-    "INSERT INTO users (username, password, admin, instrument) VALUES (?, ?, ?, ?)",
-    [username, password, admin === "on" ? 1 : 0, instrument],
+    "INSERT INTO users (username, password,  instrument) VALUES (?, ?,  ?)",
+    [username, password, instrument],
     (err) => {
       if (err) throw err;
       res.redirect("/login.html");
@@ -57,15 +54,15 @@ app.post("/signup", (req, res) => {
 
 // דף התחברות
 app.post("/login", (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, instrument } = req.body;
   db.query(
     "SELECT * FROM users WHERE username = ? AND password = ?",
-    [username, password],
+    [username, password, instrument],
     (err, results) => {
       if (err) throw err;
       if (results.length > 0) {
         const user = results[0];
-        if (user.admin) {
+        if (user.instrument === "admin") {
           res.redirect("/main-admin.html");
         } else {
           res.redirect("/main-player.html");
