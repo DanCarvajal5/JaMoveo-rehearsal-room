@@ -78,3 +78,30 @@ function highlightLinesSequentially() {
 }
 // טען את השיר הראשון כברירת מחדל
 loadSong(select.value);
+
+///check if ther is song whit the same name and redairect to results-admin page
+
+async function checkIfSongExists() {
+  const name = document.getElementById("songName").value;
+
+  const res = await fetch("/check-song", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name }),
+  });
+
+  const data = await res.json(); // ☑️ תקבל את התשובה כמו שצריך
+
+  const songNameSerch = document.getElementById("songNameSerch");
+  songNameSerch.innerHTML = ""; // מנקה תוצאות קודמות
+  const foundedSongName = document.createElement("p");
+
+  if (data.exists) {
+    foundedSongName.innerText = `✅ ${name} נמצא`;
+    window.location.href = `/results-admin.html?song=${encodeURIComponent(name)}`;
+  } else {
+    foundedSongName.innerText = "Song not found..";
+  }
+
+  songNameSerch.appendChild(foundedSongName);
+}

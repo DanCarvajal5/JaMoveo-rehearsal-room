@@ -26,7 +26,7 @@ const port = 3000;
 // });
 
 //
-
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
@@ -78,6 +78,31 @@ app.post("/login", (req, res) => {
 });
 
 //serch songs
+// app.post("/get-song", (req, res) => {
+//   const { name } = req.body;
+
+//   db.query(
+//     "SELECT content FROM songs WHERE name = ?",
+//     [name],
+//     (err, results) => {
+//       if (err) {
+//         console.error(err);
+//         return res.status(500).send("❌ שגיאה בשרת");
+//       }
+
+//       const songNameSerch = document.getElementById("songNameSerch");
+//       const foundedSongName = document.createElement("p");
+//       const songP = name;
+
+//       if (results.length > 0) {
+//         foundedSongName.innerText = name;
+//         songNameSerch.appendChild(foundedSongName);
+//       } else {
+//         songNameSerch.appendChild("song not found!!!");
+//       }
+//     }
+//   );
+// });
 app.post("/get-song", (req, res) => {
   const { name } = req.body;
 
@@ -94,8 +119,9 @@ app.post("/get-song", (req, res) => {
         const songContent = results[0].content;
         try {
           const parsedContent = JSON.parse(songContent);
-          // res.json(parsedContent);
+          res.json(parsedContent);
           res.redirect("/results-admin.html");
+          sohowFundSong();
         } catch (parseErr) {
           res.status(500).send("❌ תוכן JSON לא תקין");
         }
@@ -106,6 +132,27 @@ app.post("/get-song", (req, res) => {
   );
 });
 
+//check if song exist
+app.post("/check-song", (req, res) => {
+  const { name } = req.body;
+
+  db.query("SELECT id FROM songs WHERE name = ?", [name], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "שגיאה בשרת" });
+    }
+
+    if (results.length > 0) {
+      res.json({ exists: true });
+    } else {
+      res.json({ exists: false });
+    }
+  });
+});
+
+//
+
+//adding songs hadrcoded to the table
 // קריאת תוכן הקבצים
 const heyJudeContent = fs.readFileSync(
   path.join(__dirname, "songs", "hey_jude.json"),
