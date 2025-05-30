@@ -9,21 +9,6 @@ const port = 3000;
 
 //
 
-// socket
-// const io = require('socket.io')(server); // אחרי יצירת השרת
-
-// io.on('connection', (socket) => {
-//   console.log("User connected");
-
-//   socket.on('start-live', (songData) => {
-//     // ברגע שאדמין לוחץ על שיר
-//     io.emit('go-to-live', songData); // שולח לכולם לעבור לדף live.html
-//   });
-
-//   socket.on('stop-live', () => {
-//     io.emit('end-live'); // שולח לכולם להפסיק שידור
-//   });
-// });
 
 //
 app.use(express.json());
@@ -77,32 +62,6 @@ app.post("/login", (req, res) => {
   );
 });
 
-//serch songs
-// app.post("/get-song", (req, res) => {
-//   const { name } = req.body;
-
-//   db.query(
-//     "SELECT content FROM songs WHERE name = ?",
-//     [name],
-//     (err, results) => {
-//       if (err) {
-//         console.error(err);
-//         return res.status(500).send("❌ שגיאה בשרת");
-//       }
-
-//       const songNameSerch = document.getElementById("songNameSerch");
-//       const foundedSongName = document.createElement("p");
-//       const songP = name;
-
-//       if (results.length > 0) {
-//         foundedSongName.innerText = name;
-//         songNameSerch.appendChild(foundedSongName);
-//       } else {
-//         songNameSerch.appendChild("song not found!!!");
-//       }
-//     }
-//   );
-// });
 app.post("/get-song", (req, res) => {
   const { name } = req.body;
 
