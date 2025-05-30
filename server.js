@@ -1,10 +1,13 @@
 const express = require("express");
 const mysql = require("mysql2");
+const fs = require("fs");
 const bodyParser = require("body-parser");
 const path = require("path");
 
 const app = express();
 const port = 3000;
+
+//
 
 // socket
 // const io = require('socket.io')(server); // אחרי יצירת השרת
@@ -73,6 +76,66 @@ app.post("/login", (req, res) => {
     }
   );
 });
+
+//serch songs
+app.post("/get-song", (req, res) => {
+  const { name } = req.body;
+
+  db.query(
+    "SELECT content FROM songs WHERE name = ?",
+    [name],
+    (err, results) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("❌ שגיאה בשרת");
+      }
+
+      if (results.length > 0) {
+        const songContent = results[0].content;
+        try {
+          const parsedContent = JSON.parse(songContent);
+          // res.json(parsedContent);
+          res.redirect("/results-admin.html");
+        } catch (parseErr) {
+          res.status(500).send("❌ תוכן JSON לא תקין");
+        }
+      } else {
+        res.status(404).send("❌ שיר לא נמצא");
+      }
+    }
+  );
+});
+
+// קריאת תוכן הקבצים
+const heyJudeContent = fs.readFileSync(
+  path.join(__dirname, "songs", "hey_jude.json"),
+  "utf8"
+);
+const veechSheloContent = fs.readFileSync(
+  path.join(__dirname, "songs", "veech_shelo.json"),
+  "utf8"
+);
+//check if songs already exist in DB if not add them
+db.query(
+  "SELECT * FROM songs WHERE name = ? AND artist = ?",
+  ["Hey Jude", "The Beatles"],
+  (err, results) => {
+    if (err) throw err;
+    if (results.length === 0) {
+      // אם לא נמצא – תכניס את השיר
+      db.query(
+        "INSERT INTO songs (name, artist, content) VALUES (?, ?, ?)",
+        ["Hey Jude", "The Beatles", heyJudeContent],
+        (err, result) => {
+          if (err) throw err;
+          console.log("✅ Hey Jude נוסף לטבלה");
+        }
+      );
+    } else {
+      console.log("⚠️ השיר Hey Jude כבר קיים בטבלה");
+    }
+  }
+);
 
 app.listen(port, () => {
   console.log(`🌐 Server running at http://localhost:${port}`);

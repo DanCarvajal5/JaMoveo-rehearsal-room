@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Song Viewer</title>
-  <link rel="stylesheet" href="main-admin.css" />
-</head>
-<body>
-  <h1>Song Viewer</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Song Viewer</title>
+    <link rel="stylesheet" href="main-admin.css" />
+  </head>
+  <body>
+    <!-- get song and redirect -->
+    <form action="/get-song" method="POST">
+      <label for="songName">Serch any song</label>
+      <input type="text" name="name" id="songName" required />
+      <input type="submit" value="Serch" />
+    </form>
 
-  <label for="song-select">Choose a song:</label>
-  <select id="song-select">
-    <option value="hey_jude.json">Hey Jude</option>
-    <option value="let_it_be.json">Let It Be</option>
-    <option value="yesterday.json">Yesterday</option>
-  </select>
+    <h1>Song Viewer</h1>
 
-  <label>
-    <input type="checkbox" id="show-chords" checked />
-    Show chords
-  </label>
+    <label for="song-select">Choose a song:</label>
+    <select id="song-select">
+      <option value="hey_jude.json">Hey Jude</option>
+      <option value="let_it_be.json">Let It Be</option>
+      <option value="yesterday.json">Yesterday</option>
+    </select>
 
-  <!-- lyrics container to show the lyrics and chords -->
-  <div id="lyrics-container"></div>
+    <label>
+      <input type="checkbox" id="show-chords" checked />
+      Show chords
+    </label>
 
-  <script src="main-admin.js"></script>
-</body>
+    <!-- lyrics container to show the lyrics and chords -->
+    <div id="lyrics-container"></div>
+
+    <script src="main-admin.js"></script>
+  </body>
 </html>
