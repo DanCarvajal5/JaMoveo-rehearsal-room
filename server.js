@@ -6,6 +6,27 @@ const path = require("path");
 const app = express();
 const port = 3000;
 
+// socket 
+// const io = require('socket.io')(server); // אחרי יצירת השרת
+
+// io.on('connection', (socket) => {
+//   console.log("User connected");
+
+//   socket.on('start-live', (songData) => {
+//     // ברגע שאדמין לוחץ על שיר
+//     io.emit('go-to-live', songData); // שולח לכולם לעבור לדף live.html
+//   });
+
+//   socket.on('stop-live', () => {
+//     io.emit('end-live'); // שולח לכולם להפסיק שידור
+//   });
+// });
+
+
+
+
+// 
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 

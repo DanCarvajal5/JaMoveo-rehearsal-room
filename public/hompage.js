@@ -1,3 +1,4 @@
+// title animation
 const text = "JaMoveo";
 const title = document.getElementById("title");
 
