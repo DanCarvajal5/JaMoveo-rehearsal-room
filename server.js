@@ -132,22 +132,29 @@ app.post("/get-song", (req, res) => {
   );
 });
 
-//check if song exist
+//check if song exist and sending it to see song name and artist
 app.post("/check-song", (req, res) => {
   const { name } = req.body;
 
-  db.query("SELECT id FROM songs WHERE name = ?", [name], (err, results) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ error: "שגיאה בשרת" });
-    }
+  db.query(
+    "SELECT artist FROM songs WHERE name = ?",
+    [name],
+    (err, results) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "שגיאה בשרת" });
+      }
 
-    if (results.length > 0) {
-      res.json({ exists: true });
-    } else {
-      res.json({ exists: false });
+      if (results.length > 0) {
+        res.json({
+          exists: true,
+          artist: results[0].artist,
+        });
+      } else {
+        res.json({ exists: false });
+      }
     }
-  });
+  );
 });
 
 //
