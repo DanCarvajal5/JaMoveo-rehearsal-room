@@ -10,5 +10,5 @@ if (songName && artist) {
 }
 
 function goLive() {
-  
+  window.location.href = `/live.html?song=${songName}`;
 }

@@ -1,6 +1,38 @@
-let data=[];
+const params = new URLSearchParams(window.location.search);
+const songName = params.get("song");
+console.log("the name of the song is :" + songName);
 
-//showwChords=tru if player instument forom user sql table is guitar or drums         
+let data = [];
+//getting song lyrics+notation by song name
+
+async function loadSongContent() {
+  try {
+    const res = await fetch("/get-song-by-name", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: songName }),
+    });
+
+    if (!res.ok) {
+      throw new Error("שגיאה מהשרת");
+    }
+
+    const json = await res.json();
+    data = json.content;
+
+    console.log("✅ תוכן השיר הוזן לתוך data:", data);
+  } catch (err) {
+    console.error("❌ שגיאה בשליפת השיר:", err);
+  }
+}
+
+loadSongContent();
+// renderLyrics(true)
+//
+
+//showwChords=tru if player instument forom user sql table is guitar or drums
 function renderLyrics(showChords) {
   const container = document.getElementById("lyrics-container");
   container.innerHTML = "";

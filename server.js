@@ -158,6 +158,33 @@ app.post("/check-song", (req, res) => {
 });
 
 //
+// geting the song lyrics+notation by song name
+app.post("/get-song-by-name", (req, res) => {
+  const { name } = req.body;
+
+  db.query(
+    "SELECT content FROM songs WHERE name = ?",
+    [name],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: "שגיאה בשרת" });
+
+      if (results.length > 0) {
+        try {
+          const parsed = JSON.parse(results[0].content);
+          res.json({ content: parsed });
+        } catch (e) {
+          res.status(500).json({ error: "תוכן JSON לא תקין" });
+        }
+      } else {
+        res.status(404).json({ error: "שיר לא נמצא" });
+      }
+    }
+  );
+});
+
+
+
+//
 
 //adding songs hadrcoded to the table
 // קריאת תוכן הקבצים
