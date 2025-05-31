@@ -49,10 +49,44 @@ db.connect((err) => {
   if (err) throw err;
   console.log("MySQL Connected");
 });
+//admin signup
+app.post("/signup-admin", (req, res) => {
+  const { username, password, instrument } = req.body;
 
-// signup
+  // only Admin can use this
+  if (instrument !== "admin") {
+    return res.status(400).send("Unauthorized instrument type");
+  }
+
+  db.query(
+    "SELECT * FROM users WHERE username = ?",
+    [username],
+    (err, results) => {
+      if (err) throw err;
+
+      if (results.length > 0) {
+        return res.redirect("/signup-admin.html?error=username_taken");
+      }
+
+      db.query(
+        "INSERT INTO users (username, password, instrument) VALUES (?, ?, ?)",
+        [username, password, instrument],
+        (err) => {
+          if (err) throw err;
+          res.redirect("/login.html");
+        }
+      );
+    }
+  );
+});
+
+// regular user signup
 app.post("/signup", (req, res) => {
   const { username, password, instrument } = req.body;
+  //blocking regular user to intent signup as admin
+  if (instrument === "admin") {
+    return res.status(400).send("Invalid instrument selection");
+  }
 
   // checking first if the user exist
   db.query(

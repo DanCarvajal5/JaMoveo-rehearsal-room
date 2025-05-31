@@ -1,0 +1,38 @@
+body {
+  max-width: 1280px;
+  min-width: 320px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100vh;
+
+  /* justify-content: center; */
+  align-items: center;
+  background: maroon url(/signup-admin.png);
+  background-size: fill;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  position: relative;
+  background-color: rgb(109, 239, 94);
+  padding: 0px;
+  margin: 0px;
+  border-radius: 10%;
+  border: solid black;
+  padding: 1%;
+}
+input {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
