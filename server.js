@@ -53,12 +53,27 @@ db.connect((err) => {
 // signup
 app.post("/signup", (req, res) => {
   const { username, password, instrument } = req.body;
+
+  // checking first if the user exist
   db.query(
-    "INSERT INTO users (username, password,  instrument) VALUES (?, ?,  ?)",
-    [username, password, instrument],
-    (err) => {
+    "SELECT * FROM users WHERE username = ?",
+    [username],
+    (err, results) => {
       if (err) throw err;
-      res.redirect("/login.html");
+
+      if (results.length > 0) {
+        //user already exist with this name
+        return res.redirect("/signup.html?error=username_taken");
+      }
+
+      //user not exist make new one
+      db.query(
+        "INSERT INTO users (username, password, instrument) VALUES (?, ?, ?)",
+        [username, password, instrument],
+        (err) => {
+           res.redirect("/login.html");
+        }
+      );
     }
   );
 });
@@ -102,34 +117,35 @@ app.get("/whoami", (req, res) => {
 
   res.send(`${instrument}`);
 });
-app.post("/get-song", (req, res) => {
-  const { name } = req.body;
 
-  db.query(
-    "SELECT content FROM songs WHERE name = ?",
-    [name],
-    (err, results) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send("server error");
-      }
+// app.post("/get-song", (req, res) => {
+//   const { name } = req.body;
 
-      if (results.length > 0) {
-        const songContent = results[0].content;
-        try {
-          const parsedContent = JSON.parse(songContent);
-          res.json(parsedContent);
-          res.redirect("/results-admin.html");
-          sohowFundSong();
-        } catch (parseErr) {
-          res.status(500).send("Invalid JSON content");
-        }
-      } else {
-        res.status(404).send("Song not found");
-      }
-    }
-  );
-});
+//   db.query(
+//     "SELECT content FROM songs WHERE name = ?",
+//     [name],
+//     (err, results) => {
+//       if (err) {
+//         console.error(err);
+//         return res.status(500).send("server error");
+//       }
+
+//       if (results.length > 0) {
+//         const songContent = results[0].content;
+//         try {
+//           const parsedContent = JSON.parse(songContent);
+//           res.json(parsedContent);
+//           res.redirect("/results-admin.html");
+//           sohowFundSong();
+//         } catch (parseErr) {
+//           res.status(500).send("Invalid JSON content");
+//         }
+//       } else {
+//         res.status(404).send("Song not found");
+//       }
+//     }
+//   );
+// });
 
 //check if song exist and sending it to see song name and artist
 app.post("/check-song", (req, res) => {
