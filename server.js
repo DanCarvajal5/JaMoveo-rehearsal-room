@@ -38,11 +38,14 @@ io.on("connection", (socket) => {
   });
 });
 //connect to mySQL DB
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "1234",
-  database: "rehearsal-room",
+const db = mysql.createConnection(process.env.DATABASE_URL);
+
+db.connect((err) => {
+  if (err) {
+    console.error("❌ Database connection failed:", err.stack);
+    return;
+  }
+  console.log("✅ Connected to MySQL database.");
 });
 
 db.connect((err) => {
