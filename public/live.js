@@ -15,31 +15,35 @@ socket.on("redirect-all", (url) => {
 async function fetchUserInstrument() {
   try {
     const res = await fetch("/whoami");
-    const text = await res.text();
-    console.log("🎤 מידע על המשתמש:", text);
-   
+    userInstument = await res.text();
+    console.log("🎤 מידע על המשתמש:", userInstument);
   } catch (err) {
     console.error("❌ שגיאה בשליפת המשתמש:", err);
   }
 }
-console.log("ani menagen be: "+userInstument);
 
-// קריאה מיידית
-fetchUserInstrument();
+async function initPage() {
+  await fetchUserInstrument(); // מחכה לסיום
 
-// 🟡 קבלת הודעה והצגה על המסך
-// socket.on("receive-live-message", (message) => {
-//   songName = message; // או תציג את זה בדיב
-//   console.log(songName);
-//   loadSongContent();
-// });
-if (songName) {
-  console.log("🎵 שיר שהועבר ב-URL:", songName);
-  loadSongContent(songName);
+  console.log("ani menagen be: " + userInstument);
+
+  if (songName) {
+    console.log("🎵 שיר שהועבר ב-URL:", songName);
+    loadSongContent(songName);
+  }
 }
+
+initPage();
 //getting song lyrics+notation by song name
-async function loadSongContent() {
+async function loadSongContent(songName) {
+  let lyrics;
+  if (userInstument === "guitar" || userInstument === "drums") {
+    lyrics = true;
+  } else {
+    lyrics = false;
+  }
   try {
+    console.log("lyrics=" + lyrics);
     console.log(songName);
     const res = await fetch("/get-song-by-name", {
       method: "POST",
@@ -57,7 +61,7 @@ async function loadSongContent() {
     data = json.content;
 
     console.log("✅ תוכן השיר הוזן לתוך data:", data);
-    renderLyrics(true);
+    renderLyrics(lyrics);
   } catch (err) {
     console.error("❌ שגיאה בשליפת השיר:", err);
   }
@@ -74,13 +78,12 @@ function renderLyrics(showChords) {
   data.forEach((line) => {
     const lineDiv = document.createElement("div");
     lineDiv.className = "line";
-    // lineDiv.classList.add( "line");
 
     //world in song
     line.forEach((word) => {
       const span = document.createElement("span"); //i chose to use span and not p becaus span is a inline element and p is block element
 
-      if (showChords && word.chords) {
+      if (showChords==true && word.chords) {
         span.innerHTML = `<span class="chord">[${word.chords}]</span>${word.lyrics} `;
       } else {
         span.textContent = word.lyrics + " ";
