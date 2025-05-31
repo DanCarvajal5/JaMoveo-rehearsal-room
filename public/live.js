@@ -2,15 +2,13 @@ const params = new URLSearchParams(window.location.search);
 const songName = params.get("song");
 console.log("the name of the song is :" + songName);
 let userInstument;
-
-let data = [];
+let data = [];//will store lyrics
 let autoScroll = true;
 let scrollIntervalId = null; // מזהה של הטיימר כדי שנוכל לעצור אותו
-
 const socket = io();
+
 //this is for the case that the admin will end the season
 socket.on("redirect-all", (url) => {
-  console.log("📡 קיבלנו בקשה לעבור לעמוד:", url);
   window.location.href = url;
 });
 
@@ -18,23 +16,13 @@ socket.on("update-auto-scroll", (value) => {
   console.log("📥 קיבלנו ערך autoScroll:", value);
   autoScroll = value;
 
-  // עצירה של כל גלילה קודמת
+  // stop the previous scroll timeout
   clearTimeout(scrollIntervalId);
 
   if (autoScroll) {
     highlightLinesSequentially(); // הפעלה מחדש
   }
 });
-
-async function fetchUserInstrument() {
-  try {
-    const res = await fetch("/whoami");
-    userInstument = await res.text();
-    console.log("🎤 מידע על המשתמש:", userInstument);
-  } catch (err) {
-    console.error("❌ שגיאה בשליפת המשתמש:", err);
-  }
-}
 
 async function initPage() {
   await fetchUserInstrument(); // מחכה לסיום
@@ -47,9 +35,20 @@ async function initPage() {
   }
 }
 
+async function fetchUserInstrument() {
+  try {
+    const res = await fetch("/whoami");
+    userInstument = await res.text();
+    console.log(`user with ${userInstument} instrument joined to the band rehearsal ` );
+  } catch (err) {
+    console.error("❌ שגיאה בשליפת המשתמש:", err);
+  }
+}
+
 initPage();
 //getting song lyrics+notation by song name
 async function loadSongContent(songName) {
+  //if user intrument is guitar or drims the lyrics will be true
   let lyrics;
   if (userInstument === "guitar" || userInstument === "drums") {
     lyrics = true;
@@ -74,16 +73,13 @@ async function loadSongContent(songName) {
     const json = await res.json();
     data = json.content;
 
-    console.log("✅ תוכן השיר הוזן לתוך data:", data);
     renderLyrics(lyrics);
   } catch (err) {
-    console.error("❌ שגיאה בשליפת השיר:", err);
+    console.error("Error retrieving the song", err);
   }
 }
 
-//
-
-//showwChords=tru if player instument forom user sql table is guitar or drums
+//showwChords=true if player instument forom user sql table is guitar or drums
 function renderLyrics(showChords) {
   const container = document.getElementById("lyrics-container");
   container.innerHTML = "";
@@ -108,19 +104,17 @@ function renderLyrics(showChords) {
 
     container.appendChild(lineDiv);
   });
-  console.log("auto scroll?:" + autoScroll);
   highlightLinesSequentially(autoScroll);
 }
 function highlightLinesSequentially() {
+  //cleaning all pre lines
+  cleanAllLineHighlight();
   const lines = document.querySelectorAll(".line");
   let current = 0;
 
   function highlightNext() {
     if (!autoScroll || current >= lines.length) {
-      if (current > 0 && current <= lines.length) {
-        lines[current - 1].classList.remove("highlight"); // remove highlight from last line only if we have 1 pre line
-      }
-      console.log("auto scroll stoped");
+      cleanAllLineHighlight();
       return;
     }
 
@@ -134,5 +128,11 @@ function highlightLinesSequentially() {
     scrollIntervalId = setTimeout(highlightNext, 3000);
   }
 
-  highlightNext(); 
+  highlightNext();
+}
+function cleanAllLineHighlight() {
+  const lines = document.querySelectorAll(".line");
+  lines.forEach((line) => {
+    line.classList.remove("highlight");
+  });
 }
