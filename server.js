@@ -52,6 +52,9 @@ db.connect((err) => {
   if (err) throw err;
   console.log("MySQL Connected");
 });
+app.get("/", (req, res) => {
+  res.redirect("/homepage.html");
+});
 //admin signup
 app.post("/signup-admin", (req, res) => {
   const { username, password, instrument } = req.body;
