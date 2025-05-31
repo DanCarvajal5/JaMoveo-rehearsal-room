@@ -13,7 +13,7 @@ if (songName && artist) {
 
 function goLive() {
   //admin tels server to tell everybody to go /live.html
-  const songToPlay = songName ; // או כל שיר שנבחר
+  const songToPlay = songName ; 
   socket.emit("start-redirect", `/live.html?song=${encodeURIComponent(songToPlay)}`);
 }
 function endLive() {

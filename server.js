@@ -33,31 +33,25 @@ io.on("connection", (socket) => {
     io.emit("redirect-all", url); // redirect all
   });
 
-  socket.on("send-message-to-live", (message) => {
-    io.emit("receive-live-message", message);
-  });
-
-
   socket.on("set-auto-scroll", (value) => {
-    io.emit("update-auto-scroll", value); // שלח לכל המשתמשים
+    io.emit("update-auto-scroll", value); 
   });
 });
 
-//
 
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "1234", // או הסיסמה שלך אם שינית
-  database: "rehearsal-room", // ← זה חשוב שיהיה בדיוק כמו שקראת למסד!
+  password: "1234", 
+  database: "rehearsal-room", 
 });
 
 db.connect((err) => {
   if (err) throw err;
-  console.log("✅ MySQL Connected");
+  console.log("MySQL Connected");
 });
 
-// דף הרשמה
+// signup
 app.post("/signup", (req, res) => {
   const { username, password, instrument } = req.body;
   db.query(
@@ -70,27 +64,6 @@ app.post("/signup", (req, res) => {
   );
 });
 
-// דף התחברות
-// app.post("/login", (req, res) => {
-//   const { username, password, instrument } = req.body;
-//   db.query(
-//     "SELECT * FROM users WHERE username = ? AND password = ?",
-//     [username, password, instrument],
-//     (err, results) => {
-//       if (err) throw err;
-//       if (results.length > 0) {
-//         const user = results[0];
-//         if (user.instrument === "admin") {
-//           res.redirect("/main-admin.html");
-//         } else {
-//           res.redirect("/main-player.html");
-//         }
-//       } else {
-//         res.send("❌ שם משתמש או סיסמה שגויים");
-//       }
-//     }
-//   );
-// });
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -103,7 +76,7 @@ app.post("/login", (req, res) => {
       if (results.length > 0) {
         const user = results[0];
 
-        // שמירה ב-session
+        // save in session
         req.session.username = user.username;
         req.session.instrument = user.instrument;
 

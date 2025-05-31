@@ -7,7 +7,7 @@ let autoScroll = true;
 let scrollIntervalId = null; // מזהה של הטיימר כדי שנוכל לעצור אותו
 const socket = io();
 
-//this is for the case that the admin will end the season
+//this is for the case that the admin will end the session
 socket.on("redirect-all", (url) => {
   window.location.href = url;
 });
