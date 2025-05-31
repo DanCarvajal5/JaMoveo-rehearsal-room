@@ -6,14 +6,13 @@ const artist = params.get("artist");
 let autoScrollEnabled = true;
 
 if (songName && artist) {
-  document.getElementById("result").innerText = `🎵 ${songName} by ${artist}`;
+  document.getElementById("result").innerText = `Song name: ${songName} by ${artist}`;
 } else {
-  document.getElementById("result").innerText = "❌ לא הועברו פרטים";
+  document.getElementById("result").innerText = "cant get the song file";
 }
 
 function goLive() {
-  //שולח בקשה לשרת שיפנה את כולם לדף מסויים
-  //admin tels everybudy to go /live.html
+  //admin tels server to tell everybody to go /live.html
   const songToPlay = songName ; // או כל שיר שנבחר
   socket.emit("start-redirect", `/live.html?song=${encodeURIComponent(songToPlay)}`);
 }
@@ -21,6 +20,6 @@ function endLive() {
   socket.emit("start-redirect", "/main-player.html");
 }
 function toggleAutoScroll() {
-  autoScrollEnabled = !autoScrollEnabled;
+  autoScrollEnabled = !autoScrollEnabled;//value change every click
   socket.emit("set-auto-scroll", autoScrollEnabled);
 }

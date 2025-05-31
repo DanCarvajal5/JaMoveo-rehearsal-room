@@ -13,24 +13,17 @@ socket.on("redirect-all", (url) => {
 });
 
 socket.on("update-auto-scroll", (value) => {
-  console.log("📥 קיבלנו ערך autoScroll:", value);
   autoScroll = value;
-
   // stop the previous scroll timeout
   clearTimeout(scrollIntervalId);
-
   if (autoScroll) {
-    highlightLinesSequentially(); // הפעלה מחדש
+    highlightLinesSequentially(autoScroll); // הפעלה מחדש
   }
 });
 
 async function initPage() {
-  await fetchUserInstrument(); // מחכה לסיום
-
-  console.log("ani menagen be: " + userInstument);
-
+  await fetchUserInstrument(); 
   if (songName) {
-    console.log("🎵 שיר שהועבר ב-URL:", songName);
     loadSongContent(songName);
   }
 }
@@ -41,7 +34,7 @@ async function fetchUserInstrument() {
     userInstument = await res.text();
     console.log(`user with ${userInstument} instrument joined to the band rehearsal ` );
   } catch (err) {
-    console.error("❌ שגיאה בשליפת המשתמש:", err);
+    console.error("cannot get user instrument:", err);
   }
 }
 

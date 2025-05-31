@@ -9,15 +9,12 @@ const mysql = require("mysql2");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const path = require("path");
-
 const port = 3000;
-
-//
 const session = require("express-session");
 
 app.use(
   session({
-    secret: "mySecretKey", // תחליף במשהו מאובטח בפרויקט אמיתי
+    secret: "mySecretKeyMoveo", 
     resave: false,
     saveUninitialized: true,
   })
@@ -28,25 +25,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 //socketIO!!!!!!!!!
-//אני כאילו יוצר פה את הפונקציות של הסוקט
 io.on("connection", (socket) => {
-  console.log("🔌 משתמש התחבר");
+  console.log("new user logged in");
 
-  // אירוע שנשלח מהאדמין
+  //event that the admin send
   socket.on("start-redirect", (url) => {
-    console.log("📢 שליחת redirect לכולם:", url);
-    io.emit("redirect-all", url); // שולח לכולם
+    io.emit("redirect-all", url); // redirect all
   });
 
-  // 💬 שליחת הודעה חיה לדף live
   socket.on("send-message-to-live", (message) => {
-    console.log("💬 שליחת הודעה ל-live:", message);
     io.emit("receive-live-message", message);
   });
 
-  // server.js
+
   socket.on("set-auto-scroll", (value) => {
-    console.log("🔄 autoScroll עודכן:", value);
     io.emit("update-auto-scroll", value); // שלח לכל המשתמשים
   });
 });
