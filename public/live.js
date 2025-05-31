@@ -1,12 +1,46 @@
 const params = new URLSearchParams(window.location.search);
 const songName = params.get("song");
 console.log("the name of the song is :" + songName);
+let userInstument;
 
 let data = [];
-//getting song lyrics+notation by song name
 
+const socket = io();
+
+socket.on("redirect-all", (url) => {
+  console.log("📡 קיבלנו בקשה לעבור לעמוד:", url);
+  window.location.href = url;
+});
+
+async function fetchUserInstrument() {
+  try {
+    const res = await fetch("/whoami");
+    const text = await res.text();
+    console.log("🎤 מידע על המשתמש:", text);
+   
+  } catch (err) {
+    console.error("❌ שגיאה בשליפת המשתמש:", err);
+  }
+}
+console.log("ani menagen be: "+userInstument);
+
+// קריאה מיידית
+fetchUserInstrument();
+
+// 🟡 קבלת הודעה והצגה על המסך
+// socket.on("receive-live-message", (message) => {
+//   songName = message; // או תציג את זה בדיב
+//   console.log(songName);
+//   loadSongContent();
+// });
+if (songName) {
+  console.log("🎵 שיר שהועבר ב-URL:", songName);
+  loadSongContent(songName);
+}
+//getting song lyrics+notation by song name
 async function loadSongContent() {
   try {
+    console.log(songName);
     const res = await fetch("/get-song-by-name", {
       method: "POST",
       headers: {
@@ -28,8 +62,6 @@ async function loadSongContent() {
     console.error("❌ שגיאה בשליפת השיר:", err);
   }
 }
-
-loadSongContent();
 
 //
 

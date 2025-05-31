@@ -1,19 +1,53 @@
 const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
 const mysql = require("mysql2");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const path = require("path");
 
-const app = express();
 const port = 3000;
 
 //
+const session = require("express-session");
 
-
+app.use(
+  session({
+    secret: "mySecretKey", // תחליף במשהו מאובטח בפרויקט אמיתי
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 //
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+//socketIO!!!!!!!!!
+//אני כאילו יוצר פה את הפונקציות של הסוקט
+io.on("connection", (socket) => {
+  console.log("🔌 משתמש התחבר");
+
+  // אירוע שנשלח מהאדמין
+  socket.on("start-redirect", (url) => {
+    console.log("📢 שליחת redirect לכולם:", url);
+    io.emit("redirect-all", url); // שולח לכולם
+  });
+
+
+  // 💬 שליחת הודעה חיה לדף live
+  socket.on("send-message-to-live", (message) => {
+    console.log("💬 שליחת הודעה ל-live:", message);
+    io.emit("receive-live-message", message);
+  });
+
+});
+
+//
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -41,15 +75,42 @@ app.post("/signup", (req, res) => {
 });
 
 // דף התחברות
+// app.post("/login", (req, res) => {
+//   const { username, password, instrument } = req.body;
+//   db.query(
+//     "SELECT * FROM users WHERE username = ? AND password = ?",
+//     [username, password, instrument],
+//     (err, results) => {
+//       if (err) throw err;
+//       if (results.length > 0) {
+//         const user = results[0];
+//         if (user.instrument === "admin") {
+//           res.redirect("/main-admin.html");
+//         } else {
+//           res.redirect("/main-player.html");
+//         }
+//       } else {
+//         res.send("❌ שם משתמש או סיסמה שגויים");
+//       }
+//     }
+//   );
+// });
 app.post("/login", (req, res) => {
-  const { username, password, instrument } = req.body;
+  const { username, password } = req.body;
+
   db.query(
     "SELECT * FROM users WHERE username = ? AND password = ?",
-    [username, password, instrument],
+    [username, password],
     (err, results) => {
       if (err) throw err;
+
       if (results.length > 0) {
         const user = results[0];
+
+        // שמירה ב-session
+        req.session.username = user.username;
+        req.session.instrument = user.instrument;
+
         if (user.instrument === "admin") {
           res.redirect("/main-admin.html");
         } else {
@@ -62,6 +123,17 @@ app.post("/login", (req, res) => {
   );
 });
 
+//getting specific user instrument
+app.get("/whoami", (req, res) => {
+  const instrument = req.session.instrument;
+  const username = req.session.username;
+
+  if (!instrument) {
+    return res.send("❌ לא מחובר");
+  }
+
+  res.send(`${instrument}`);
+});
 app.post("/get-song", (req, res) => {
   const { name } = req.body;
 
@@ -141,8 +213,6 @@ app.post("/get-song-by-name", (req, res) => {
   );
 });
 
-
-
 //
 
 //adding songs hadrcoded to the table
@@ -177,6 +247,6 @@ db.query(
   }
 );
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`🌐 Server running at http://localhost:${port}`);
 });
