@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
     io.emit("update-auto-scroll", value);
   });
 });
-
+//connect to mySQL DB
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -62,7 +62,7 @@ app.post("/signup", (req, res) => {
     }
   );
 });
-
+//login
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -78,7 +78,7 @@ app.post("/login", (req, res) => {
         // save in session
         req.session.username = user.username;
         req.session.instrument = user.instrument;
-
+        console.log(`im playing ${user.instrument}`)
         if (user.instrument === "admin") {
           res.redirect("/main-admin.html");
         } else {
@@ -97,7 +97,7 @@ app.get("/whoami", (req, res) => {
   const username = req.session.username;
 
   if (!instrument) {
-    return res.send("❌ לא מחובר");
+    return res.send("instrument not found");
   }
 
   res.send(`${instrument}`);
@@ -111,7 +111,7 @@ app.post("/get-song", (req, res) => {
     (err, results) => {
       if (err) {
         console.error(err);
-        return res.status(500).send("❌ שגיאה בשרת");
+        return res.status(500).send("server error");
       }
 
       if (results.length > 0) {
@@ -122,10 +122,10 @@ app.post("/get-song", (req, res) => {
           res.redirect("/results-admin.html");
           sohowFundSong();
         } catch (parseErr) {
-          res.status(500).send("❌ תוכן JSON לא תקין");
+          res.status(500).send("Invalid JSON content");
         }
       } else {
-        res.status(404).send("❌ שיר לא נמצא");
+        res.status(404).send("Song not found");
       }
     }
   );
@@ -141,7 +141,7 @@ app.post("/check-song", (req, res) => {
     (err, results) => {
       if (err) {
         console.error(err);
-        return res.status(500).json({ error: "שגיאה בשרת" });
+        return res.status(500).json({ error: "server error" });
       }
 
       if (results.length > 0) {
@@ -165,26 +165,23 @@ app.post("/get-song-by-name", (req, res) => {
     "SELECT content FROM songs WHERE name = ?",
     [name],
     (err, results) => {
-      if (err) return res.status(500).json({ error: "שגיאה בשרת" });
+      if (err) return res.status(500).json({ error: "server error" });
 
       if (results.length > 0) {
         try {
           const parsed = JSON.parse(results[0].content);
           res.json({ content: parsed });
         } catch (e) {
-          res.status(500).json({ error: "תוכן JSON לא תקין" });
+          res.status(500).json({ error: "Invalid JSON content" });
         }
       } else {
-        res.status(404).json({ error: "שיר לא נמצא" });
+        res.status(404).json({ error: "Song not found" });
       }
     }
   );
 });
 
-//
-
 //adding songs hadrcoded to the table
-// קריאת תוכן הקבצים
 const heyJudeContent = fs.readFileSync(
   path.join(__dirname, "songs", "hey_jude.json"),
   "utf8"
@@ -200,21 +197,21 @@ db.query(
   (err, results) => {
     if (err) throw err;
     if (results.length === 0) {
-      // אם לא נמצא – תכניס את השיר
+      // if not exist add to table
       db.query(
         "INSERT INTO songs (name, artist, content) VALUES (?, ?, ?)",
         ["Hey Jude", "The Beatles", heyJudeContent],
         (err, result) => {
           if (err) throw err;
-          console.log("✅ Hey Jude נוסף לטבלה");
+          console.log("Song added to table");
         }
       );
     } else {
-      console.log("⚠️ השיר Hey Jude כבר קיים בטבלה");
+      console.log("Song already exists in table");
     }
   }
 );
 
 server.listen(port, () => {
-  console.log(`🌐 Server running at http://localhost:${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });

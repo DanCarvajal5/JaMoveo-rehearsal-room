@@ -6,30 +6,17 @@
     <link rel="stylesheet" href="main-admin.css" />
   </head>
   <body>
-    <!-- get song and redirect -->
-    <label for="songName">Search any song:</label>
-    <input type="text" id="songName" required />
-    <button onclick="checkIfSongExists()">Search</button>
+    <div class="search-container">
+      <!-- get song and redirect -->
+      <label for="songName">Search any song:</label>
+      <input type="text" id="songName" required />
+      <button onclick="checkIfSongExists()">Search</button>
+      
+      <!-- loade animation -->
+      <div class="loader hide"></div>
 
-    <div id="songNameSerch"></div>
-
-    <h1>Song Viewer</h1>
-
-    <label for="song-select">Choose a song:</label>
-    <select id="song-select">
-      <option value="hey_jude.json">Hey Jude</option>
-      <option value="let_it_be.json">Let It Be</option>
-      <option value="yesterday.json">Yesterday</option>
-    </select>
-
-    <label>
-      <input type="checkbox" id="show-chords" checked />
-      Show chords
-    </label>
-
-    <!-- lyrics container to show the lyrics and chords -->
-    <div id="lyrics-container"></div>
-
+      <div id="songNameSerch"></div>
+    </div>
     <script src="main-admin.js"></script>
   </body>
 </html>

@@ -2,9 +2,9 @@ const params = new URLSearchParams(window.location.search);
 const songName = params.get("song");
 console.log("the name of the song is :" + songName);
 let userInstument;
-let data = [];//will store lyrics
+let data = []; //will store lyrics
 let autoScroll = true;
-let scrollIntervalId = null; 
+let scrollIntervalId = null;
 const socket = io();
 
 //this is for the case that the admin will end the session
@@ -22,7 +22,7 @@ socket.on("update-auto-scroll", (value) => {
 });
 
 async function initPage() {
-  await fetchUserInstrument(); 
+  await fetchUserInstrument();
   if (songName) {
     loadSongContent(songName);
   }
@@ -32,7 +32,9 @@ async function fetchUserInstrument() {
   try {
     const res = await fetch("/whoami");
     userInstument = await res.text();
-    console.log(`user with ${userInstument} instrument joined to the band rehearsal ` );
+    console.log(
+      `user with ${userInstument} instrument joined to the band rehearsal `
+    );
   } catch (err) {
     console.error("cannot get user instrument:", err);
   }
@@ -76,7 +78,7 @@ async function loadSongContent(songName) {
 function renderLyrics(showChords) {
   const container = document.getElementById("lyrics-container");
   container.innerHTML = "";
-
+  console.log("showChord=" + showChords);
   // line in song
   data.forEach((line) => {
     const lineDiv = document.createElement("div");

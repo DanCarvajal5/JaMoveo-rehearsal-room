@@ -2,6 +2,7 @@ let data = [];
 
 const select = document.getElementById("song-select");
 const showChordsCheckbox = document.getElementById("show-chords");
+ const loadeE = document.querySelector(".loader");
 
 select.addEventListener("change", () => {
   loadSong(select.value, showChordsCheckbox.checked);
@@ -82,7 +83,8 @@ loadSong(select.value);
 ///check if ther is song whit the same name and redairect to results-admin page -also sendin song name and artist name
 async function checkIfSongExists() {
   const name = document.getElementById("songName").value;
-
+ 
+  loadeE.classList.remove("hide");
   const res = await fetch("/check-song", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -97,13 +99,14 @@ async function checkIfSongExists() {
 
   if (data.exists) {
     foundedSongName.innerText = `✅ ${name} נמצא`;
-    
+
     // שליחה ל-results-admin.html עם גם song וגם artist
     const artist = encodeURIComponent(data.artist);
     const song = encodeURIComponent(name);
     // const songContent=encodeURIComponent(JSON.stringify(data.content));
     window.location.href = `/results-admin.html?song=${song}&artist=${artist}`;
   } else {
+    loadeE.classList.add("hide");
     foundedSongName.innerText = "Song not found..";
   }
 
