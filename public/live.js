@@ -4,7 +4,7 @@ console.log("the name of the song is :" + songName);
 let userInstument;
 let data = [];//will store lyrics
 let autoScroll = true;
-let scrollIntervalId = null; // מזהה של הטיימר כדי שנוכל לעצור אותו
+let scrollIntervalId = null; 
 const socket = io();
 
 //this is for the case that the admin will end the session
@@ -17,7 +17,7 @@ socket.on("update-auto-scroll", (value) => {
   // stop the previous scroll timeout
   clearTimeout(scrollIntervalId);
   if (autoScroll) {
-    highlightLinesSequentially(autoScroll); // הפעלה מחדש
+    highlightLinesSequentially(autoScroll); // restart
   }
 });
 

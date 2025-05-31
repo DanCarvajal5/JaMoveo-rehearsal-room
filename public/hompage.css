@@ -1,8 +1,7 @@
 body {
-  /* width: 100%; */
-  max-width: 1280px; /* רוחב מקסימלי של התוכן */
-  min-width: 320px; /* רוחב מינימלי (למנוע שבירה מוחלטת בניידים ישנים) */
-  margin: 0 auto; /* מרכז את האלמנט בעמוד */
+  max-width: 1280px; 
+  min-width: 320px; 
+  margin: 0 auto; 
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -29,7 +28,6 @@ body {
   }
 }
 /* JaMoveo pic */
-
 .Jamoveo-img-container {
   display: flex;
   justify-content: center;

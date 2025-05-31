@@ -13,18 +13,24 @@
       <h2>Login</h2>
       <form action="/login" method="POST">
         <label>Username:</label><br />
-        <input type="text" name="username" required /><br />
+        <input type="text" name="username" required />
         <label>Password:</label><br />
-        <input type="password" name="password" required /><br /><br />
+        <input type="password" name="password" required /><br />
         <input type="submit" value="Login" />
       </form>
-      <!-- <button id="signupBtn">Signup</button> -->
-
+      <div id="error-msg" style="color: red"></div>
       <form action="/signup.html" method="GET">
         <input type="submit" value="Sign Up" />
       </form>
     </div>
     <!-- musical notation animation -->
     <script src="/musical-notation.js"></script>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("error") === "1") {
+        document.getElementById("error-msg").textContent =
+          "username or password is incorrect";
+      }
+    </script>
   </body>
 </html>

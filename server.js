@@ -14,7 +14,7 @@ const session = require("express-session");
 
 app.use(
   session({
-    secret: "mySecretKeyMoveo", 
+    secret: "mySecretKeyMoveo",
     resave: false,
     saveUninitialized: true,
   })
@@ -34,16 +34,15 @@ io.on("connection", (socket) => {
   });
 
   socket.on("set-auto-scroll", (value) => {
-    io.emit("update-auto-scroll", value); 
+    io.emit("update-auto-scroll", value);
   });
 });
-
 
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "1234", 
-  database: "rehearsal-room", 
+  password: "1234",
+  database: "rehearsal-room",
 });
 
 db.connect((err) => {
@@ -86,7 +85,7 @@ app.post("/login", (req, res) => {
           res.redirect("/main-player.html");
         }
       } else {
-        res.send("❌ שם משתמש או סיסמה שגויים");
+        res.redirect("/login.html?error=1");
       }
     }
   );
