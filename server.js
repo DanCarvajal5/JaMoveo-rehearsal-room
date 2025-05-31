@@ -48,10 +48,6 @@ db.connect((err) => {
   console.log("✅ Connected to MySQL database.");
 });
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log("MySQL Connected");
-});
 app.get("/", (req, res) => {
   res.redirect("/homepage.html");
 });
@@ -111,7 +107,7 @@ app.post("/signup", (req, res) => {
         "INSERT INTO users (username, password, instrument) VALUES (?, ?, ?)",
         [username, password, instrument],
         (err) => {
-           res.redirect("/login.html");
+          res.redirect("/login.html");
         }
       );
     }
@@ -133,7 +129,7 @@ app.post("/login", (req, res) => {
         // save in session
         req.session.username = user.username;
         req.session.instrument = user.instrument;
-        console.log(`im playing ${user.instrument}`)
+        console.log(`im playing ${user.instrument}`);
         if (user.instrument === "admin") {
           res.redirect("/main-admin.html");
         } else {
@@ -157,7 +153,6 @@ app.get("/whoami", (req, res) => {
 
   res.send(`${instrument}`);
 });
-
 
 //check if song exist and sending it to see song name and artist
 app.post("/check-song", (req, res) => {
