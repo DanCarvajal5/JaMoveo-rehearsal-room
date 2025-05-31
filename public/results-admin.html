@@ -11,11 +11,12 @@
     <div class="Jamoveo-img-container">
       <img class="Jamoveo-img" src="/JaMoveo-Result-Admin.png" alt="JaMoveo img" />
     </div>
-    <button id="result" onclick="goLive()">Search</button>
-    <button id="end-live" onclick="endLive()">end live</button>
-    <button id="auto-scroll" onclick="toggleAutoScroll()">auto scroll</button>
-    <button id="back-to-search" onclick="backToSearch()">back to search</button>
-
+    <div class="button-container">
+    <button class="button-admin" id="result" onclick="goLive()">Search</button>
+    <button class="button-admin" id="end-live" onclick="endLive()">end live</button>
+    <button class="button-admin" id="auto-scroll" onclick="toggleAutoScroll()">auto scroll</button>
+    <button class="button-admin" id="back-to-search" onclick="backToSearch()">back to search</button>
+        </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="results-admin.js"></script>
   </body>

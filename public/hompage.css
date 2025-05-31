@@ -1,7 +1,7 @@
 body {
-  max-width: 1280px; 
-  min-width: 320px; 
-  margin: 0 auto; 
+  max-width: 1280px;
+  min-width: 320px;
+  margin: 0 auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -34,8 +34,7 @@ body {
   /* background-color: magenta; */
 }
 .Jamoveo-img {
-  height: 50vh;
-  min-height: 853px;
+  width: 80%;
   border-radius: 100px;
 }
 
@@ -45,6 +44,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .homepage-link {
@@ -64,4 +64,18 @@ body {
 .homepage-link:focus {
   background-color: #8e2d23;
   color: #2d3e55;
+}
+/* responsive design */
+@media screen and (max-width: 600px) {
+  .nav-homepage-links {
+    flex-direction: column;
+  }
+  .homepage-link {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .title {
+    font-size: 2em;
+    height: 5vh;
+  }
 }

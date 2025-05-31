@@ -4,12 +4,16 @@
     <meta charset="UTF-8" />
     <title>Song Viewer</title>
     <link rel="stylesheet" href="main-admin.css" />
+    <link rel="stylesheet" href="hompage.css" />
   </head>
   <body>
-    <div class="search-container">
+    <div class="Jamoveo-img-container">
+      <img class="Jamoveo-img" src="/JaMoveo-Main-Admin.png" alt="JaMoveo img" />
+    </div>
+    <div class="search-container search-btn">
       <!-- get song and redirect -->
       <label for="songName">Search any song:</label>
-      <input type="text" id="songName" required />
+      <input type="text" id="songName" placeholder="song neme" required />
       <button onclick="checkIfSongExists()">Search</button>
       
       <!-- loade animation -->

@@ -1,14 +1,4 @@
-body {
-  max-width: 1280px;
-  min-width: 320px;
-  margin: 0 auto;
-  box-sizing: border-box;
-  gap: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+
 /* lading animation */
 .loader {
   --c: #000;
@@ -40,4 +30,25 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 0.5rem;
+  width: 100%;
 }
+.search-btn {
+  /* flex-grow: 1; */
+  color: #8e2d23;
+  background-color: #2d3e55;
+  /* border: 1px solid; */
+  border-radius: 10px;
+  font-size: 24px;
+  padding: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.5s ease-out;
+}
+.search-btn:hover,
+.search-btn:focus {
+  background-color: #8e2d23;
+  color: #2d3e55;
+}
+
+
