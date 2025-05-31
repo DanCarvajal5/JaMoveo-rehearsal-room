@@ -9,7 +9,7 @@ const mysql = require("mysql2");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const path = require("path");
-const port = 3000;
+const port = process.env.PORT || 3000;
 const session = require("express-session");
 
 app.use(
