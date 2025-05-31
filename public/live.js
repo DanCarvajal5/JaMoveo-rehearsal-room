@@ -4,12 +4,26 @@ console.log("the name of the song is :" + songName);
 let userInstument;
 
 let data = [];
+let autoScroll = true;
+let scrollIntervalId = null; // מזהה של הטיימר כדי שנוכל לעצור אותו
 
 const socket = io();
-
+//this is for the case that the admin will end the season
 socket.on("redirect-all", (url) => {
   console.log("📡 קיבלנו בקשה לעבור לעמוד:", url);
   window.location.href = url;
+});
+
+socket.on("update-auto-scroll", (value) => {
+  console.log("📥 קיבלנו ערך autoScroll:", value);
+  autoScroll = value;
+
+  // עצירה של כל גלילה קודמת
+  clearTimeout(scrollIntervalId);
+
+  if (autoScroll) {
+    highlightLinesSequentially(); // הפעלה מחדש
+  }
 });
 
 async function fetchUserInstrument() {
@@ -83,7 +97,7 @@ function renderLyrics(showChords) {
     line.forEach((word) => {
       const span = document.createElement("span"); //i chose to use span and not p becaus span is a inline element and p is block element
 
-      if (showChords==true && word.chords) {
+      if (showChords == true && word.chords) {
         span.innerHTML = `<span class="chord">[${word.chords}]</span>${word.lyrics} `;
       } else {
         span.textContent = word.lyrics + " ";
@@ -94,27 +108,31 @@ function renderLyrics(showChords) {
 
     container.appendChild(lineDiv);
   });
-  highlightLinesSequentially();
+  console.log("auto scroll?:" + autoScroll);
+  highlightLinesSequentially(autoScroll);
 }
-
 function highlightLinesSequentially() {
   const lines = document.querySelectorAll(".line");
   let current = 0;
 
   function highlightNext() {
+    if (!autoScroll || current >= lines.length) {
+      if (current > 0 && current <= lines.length) {
+        lines[current - 1].classList.remove("highlight"); // remove highlight from last line only if we have 1 pre line
+      }
+      console.log("auto scroll stoped");
+      return;
+    }
+
     if (current > 0) {
-      lines[current - 1].classList.remove("highlight"); // הסר הדגשה מהשורה הקודמת
+      lines[current - 1].classList.remove("highlight");
     }
 
-    if (current < lines.length) {
-      lines[current].classList.add("highlight");
+    lines[current].classList.add("highlight");
+    current++;
 
-      setTimeout(() => {
-        current++;
-        highlightNext();
-      }, 3000); // המתן 3 שניות לפני מעבר לשורה הבאה
-    }
+    scrollIntervalId = setTimeout(highlightNext, 3000);
   }
 
-  highlightNext();
+  highlightNext(); 
 }

@@ -38,13 +38,17 @@ io.on("connection", (socket) => {
     io.emit("redirect-all", url); // שולח לכולם
   });
 
-
   // 💬 שליחת הודעה חיה לדף live
   socket.on("send-message-to-live", (message) => {
     console.log("💬 שליחת הודעה ל-live:", message);
     io.emit("receive-live-message", message);
   });
 
+  // server.js
+  socket.on("set-auto-scroll", (value) => {
+    console.log("🔄 autoScroll עודכן:", value);
+    io.emit("update-auto-scroll", value); // שלח לכל המשתמשים
+  });
 });
 
 //
