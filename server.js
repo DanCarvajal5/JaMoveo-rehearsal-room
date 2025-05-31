@@ -152,34 +152,6 @@ app.get("/whoami", (req, res) => {
   res.send(`${instrument}`);
 });
 
-// app.post("/get-song", (req, res) => {
-//   const { name } = req.body;
-
-//   db.query(
-//     "SELECT content FROM songs WHERE name = ?",
-//     [name],
-//     (err, results) => {
-//       if (err) {
-//         console.error(err);
-//         return res.status(500).send("server error");
-//       }
-
-//       if (results.length > 0) {
-//         const songContent = results[0].content;
-//         try {
-//           const parsedContent = JSON.parse(songContent);
-//           res.json(parsedContent);
-//           res.redirect("/results-admin.html");
-//           sohowFundSong();
-//         } catch (parseErr) {
-//           res.status(500).send("Invalid JSON content");
-//         }
-//       } else {
-//         res.status(404).send("Song not found");
-//       }
-//     }
-//   );
-// });
 
 //check if song exist and sending it to see song name and artist
 app.post("/check-song", (req, res) => {
