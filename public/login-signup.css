@@ -33,3 +33,13 @@ input {
   border: 0px;
   border-radius: 10px;
 }
+.login-signup-btn{
+  cursor: pointer;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #eee;
+  transition: background-color 0.2s;
+}
+ .login-signup-btn:hover{
+  background-color: #c6e682;
+ }
