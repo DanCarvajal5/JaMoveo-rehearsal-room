@@ -46,8 +46,16 @@ const db = mysql.createPool({
   enableKeepAlive: true,
   keepAliveInitialDelay: 10000
 });
-
-
+//locale invirament
+// const db = mysql.createPool({
+//   host: "localhost",
+//   user: "root",
+//   password: "1234",
+//   database: "rehearsal-room",
+//   waitForConnections: true,
+//   connectionLimit: 10,
+//   queueLimit: 0,
+// });
 
 app.get("/", (req, res) => {
   res.redirect("/homepage.html");
