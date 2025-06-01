@@ -25,7 +25,7 @@ body {
   gap: 15px;
   margin: 5%;
   border-radius: 25px;
-  border: solid  rgb(109, 239, 94);;
+  border: solid rgb(109, 239, 94);
   padding: 1%;
 }
 input {
@@ -38,6 +38,9 @@ input {
   font-weight: bold;
   transition: background-color 0.2s;
 }
-input:hover{
+input:hover {
   background-color: #c6e682;
+}
+form {
+  gap: 20px;
 }
