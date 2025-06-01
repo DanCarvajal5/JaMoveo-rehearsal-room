@@ -35,9 +35,7 @@ input {
 }
 .login-signup-btn{
   cursor: pointer;
-  padding: 10px;
   font-weight: bold;
-  background-color: #eee;
   transition: background-color 0.2s;
 }
  .login-signup-btn:hover{
