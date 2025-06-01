@@ -9,7 +9,7 @@ const result = document.getElementById("result");
 if (songName && artist) {
   document.getElementById(
     "result"
-  ).innerText = `Song name: ${songName} by ${artist} /br Go live`;
+  ).innerText = `Song name: ${songName} by ${artist} Go live`;
 } else {
   document.getElementById("result").innerText = "cant get the song file";
 }
