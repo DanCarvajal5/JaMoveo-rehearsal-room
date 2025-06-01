@@ -38,15 +38,16 @@ io.on("connection", (socket) => {
   });
 });
 //connect to mySQL DB
-const db = mysql.createConnection(process.env.DATABASE_URL);
-
-db.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err.stack);
-    return;
-  }
-  console.log("Connected to MySQL database.");
+const db = mysql.createPool({
+  uri: process.env.DATABASE_URL,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 10000
 });
+
+
 
 app.get("/", (req, res) => {
   res.redirect("/homepage.html");
