@@ -5,34 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Signup Admin</title>
     <!-- musical notation animation -->
-    
+
     <link rel="stylesheet" href="/signup-admin.css" />
   </head>
   <body>
     <div class="main-container">
       <h2>Admin-Sign Up</h2>
       <form action="/signup-admin" method="POST">
-        <label>Username:</label><br />
+        <label>Username</label><br />
         <input type="text" name="username" required /><br />
 
-        <label>Password:</label><br />
+        <label>Password</label><br />
         <input type="password" name="password" required /><br />
 
         <input type="hidden" name="instrument" value="admin" />
 
-        <input type="submit" value="Sign Up" />
+        <input class="signupBtn" type="submit" value="Sign Up" />
         <!-- in case of error in creating user -->
         <p id="error-msg" style="color: red"></p>
       </form>
     </div>
-    
+
     <script>
       const params = new URLSearchParams(window.location.search);
       if (params.get("error") === "username_taken") {
         document.getElementById("error-msg").textContent =
           "user already exist with this name please try again with different name";
       }
-     
     </script>
   </body>
 </html>

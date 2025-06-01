@@ -33,14 +33,16 @@ input {
   padding: 0px;
   margin: 0px;
   border: 0px;
+  background-color: #ebf3da;
   border-radius: 10px;
+  
+}
+.signupBtn{
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s;
 }
-input:hover {
+.signupBtn:hover {
   background-color: #c6e682;
 }
-form {
-  gap: 20px;
-}
+
